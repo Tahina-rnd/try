@@ -6,7 +6,7 @@
 /*   By: tarandri <tarandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:31:24 by tarandri          #+#    #+#             */
-/*   Updated: 2026/03/03 10:29:50 by tarandri         ###   ########.fr       */
+/*   Updated: 2026/03/05 21:45:27 by tarandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ static int	handle_identifier(char *line, t_map_data *data, int *in_map)
 {
 	int	ret;
 
+	ret = 0;
 	ret = parse_identifier(line, data);
 	if (ret == 1)
 	{
@@ -100,13 +101,6 @@ static int	handle_map_line(char *line, t_map_data *data)
 	return (0);
 }
 
-/*
-** Codes de retour de process_line :
-**  0  → continuer normalement (free line)
-**  1  → erreur fatale
-**  2  → ligne vide hors map (free line + continue)
-**  3  → fin de map (break)
-*/
 static int	process_line(char *line, t_map_data *data, int *in_map)
 {
 	int	ret;
@@ -121,6 +115,8 @@ static int	process_line(char *line, t_map_data *data, int *in_map)
 			free(line);
 			return (ft_error("Invalid identifier"));
 		}
+		if (*in_map)
+			free(line);
 		return (0);
 	}
 	ret = handle_map_line(line, data);
@@ -147,7 +143,10 @@ static int	read_loop(int fd, t_map_data *data)
 			continue ;
 		}
 		if (ret == 1 || ret == 3)
+		{
+			free(line);
 			break ;
+		}
 		if (ret != 0)
 			return (ret);
 		free(line);

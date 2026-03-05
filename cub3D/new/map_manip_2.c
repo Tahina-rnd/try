@@ -6,7 +6,7 @@
 /*   By: tarandri <tarandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 23:29:53 by tarandri          #+#    #+#             */
-/*   Updated: 2026/03/02 23:36:54 by tarandri         ###   ########.fr       */
+/*   Updated: 2026/03/05 21:51:31 by tarandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ int	validate_map(t_map_data *data)
 			return (ft_error("Invalid character in map"));
 		i++;
 	}
+	if (check_player(data->map))
+		return (ft_error("No player or multiple players"));
 	if (find_player(data) != 0)
-		return (ft_error("Player not found or multiple players"));
+		return (ft_error("Player not found"));
 	map_copy = duplicate_map(data->map, data->map_height);
 	if (!map_copy)
 		return (ft_error("Malloc failed for map copy"));
@@ -90,4 +92,3 @@ int	validate_map(t_map_data *data)
 	free_map_copy(map_copy, data->map_height);
 	return (0);
 }
-

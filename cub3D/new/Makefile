@@ -8,9 +8,19 @@ LIBFT_A		=	$(LIBFT_DIR)/libftcore.a
 MLX_DIR		=	./minilibx-linux
 MLX_A		=	$(MLX_DIR)/libmlx.a
 
-SRCS 		=	main.c ft_error.c \
+SRCS 		=	main.c \
+				ft_error.c \
+				ft_realloc.c \
 				map_format_checker.c \
-				parsing.c ft_realloc.c
+				parsing.c \
+				parsing_utils.c \
+				parse_identifier.c \
+				get_texture_path.c \
+				get_color_path.c \
+				map_manip.c \
+				map_manip_2.c \
+				flood_fil.c \
+				free_map.c
 
 OBJS 		=	$(SRCS:.c=.o)
 
