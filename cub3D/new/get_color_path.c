@@ -6,7 +6,7 @@
 /*   By: tarandri <tarandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 23:31:59 by tarandri          #+#    #+#             */
-/*   Updated: 2026/03/03 08:54:32 by tarandri         ###   ########.fr       */
+/*   Updated: 2026/03/05 22:06:25 by tarandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,25 +47,25 @@ static int	extract_token(char *token, char *line, int *i)
 	return (1);
 }
 
-static int	check_rgb_values(t_rgb *color, int *numbers, char *line, int nb_count)
+static int	check_trailing(char *line, int i)
 {
-	int	i;
-
-	i = 0;
-	if (nb_count != 3)
-		return (ft_error("RGB must have exactly 3 numbers"));
 	while (line[i] && (line[i] == ' ' || line[i] == '\t'))
 		i++;
-	while (line[i] && line[i] != '\n' && line[i] != '\0')
-	{
-		if (line[i] != ' ' && line[i] != '\t')
-			return (ft_error("Extra characters after RGB values"));
-		i++;
-	}
+	if (line[i] && line[i] != '\n' && line[i] != '\0')
+		return (ft_error("Extra characters after RGB values"));
+	return (0);
+}
+
+static int	check_rgb_values(t_rgb *color, int *numbers, int nb_count, int end_i, char *line)
+{
+	if (nb_count != 3)
+		return (ft_error("RGB must have exactly 3 numbers"));
 	if (numbers[0] < 0 || numbers[0] > 255
 		|| numbers[1] < 0 || numbers[1] > 255
 		|| numbers[2] < 0 || numbers[2] > 255)
 		return (ft_error("RGB values must be between 0 and 255"));
+	if (check_trailing(line, end_i))
+		return (1);
 	color->r = numbers[0];
 	color->g = numbers[1];
 	color->b = numbers[2];
@@ -98,5 +98,5 @@ int	get_color(t_rgb *color, char *line)
 		if (line[i] == ',')
 			i++;
 	}
-	return (check_rgb_values(color, numbers, line, nb_count));
+	return (check_rgb_values(color, numbers, nb_count, i, line));
 }

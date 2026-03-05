@@ -6,7 +6,7 @@
 /*   By: tarandri <tarandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/02 23:24:10 by tarandri          #+#    #+#             */
-/*   Updated: 2026/03/03 08:58:02 by tarandri         ###   ########.fr       */
+/*   Updated: 2026/03/05 22:18:32 by tarandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int	check_position(char **map, t_point curr, int width, int height)
 	if (map[curr.y][curr.x] == '1' || map[curr.y][curr.x] == 'V')
 		return (1);
 	if (map[curr.y][curr.x] == ' ')
-		return (-1);
+		return (1);
 	return (0);
 }
 

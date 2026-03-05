@@ -6,7 +6,7 @@
 /*   By: tarandri <tarandri@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/17 14:31:24 by tarandri          #+#    #+#             */
-/*   Updated: 2026/03/05 21:45:27 by tarandri         ###   ########.fr       */
+/*   Updated: 2026/03/05 22:06:49 by tarandri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static int	handle_identifier(char *line, t_map_data *data, int *in_map)
 {
 	int	ret;
 
-	ret = 0;
 	ret = parse_identifier(line, data);
 	if (ret == 1)
 	{
@@ -89,15 +88,9 @@ static int	handle_identifier(char *line, t_map_data *data, int *in_map)
 static int	handle_map_line(char *line, t_map_data *data)
 {
 	if (is_empty_line(line))
-	{
-		free(line);
 		return (1);
-	}
 	if (add_map_line(data, line) != 0)
-	{
-		free(line);
 		return (-1);
-	}
 	return (0);
 }
 
@@ -111,12 +104,7 @@ static int	process_line(char *line, t_map_data *data, int *in_map)
 	{
 		ret = handle_identifier(line, data, in_map);
 		if (ret == -1)
-		{
-			free(line);
 			return (ft_error("Invalid identifier"));
-		}
-		if (*in_map)
-			free(line);
 		return (0);
 	}
 	ret = handle_map_line(line, data);
@@ -134,22 +122,17 @@ static int	read_loop(int fd, t_map_data *data)
 	int		ret;
 
 	in_map = 0;
+	ret = 0;
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		ret = process_line(line, data, &in_map);
+		free(line);
 		if (ret == 2)
-		{
-			free(line);
 			continue ;
-		}
 		if (ret == 1 || ret == 3)
-		{
-			free(line);
 			break ;
-		}
 		if (ret != 0)
 			return (ret);
-		free(line);
 	}
 	if (ret == 1)
 		return (1);
